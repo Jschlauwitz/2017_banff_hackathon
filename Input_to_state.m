@@ -6,7 +6,6 @@ classdef Input_to_state
         UpperFreq
         Cpipe
         FVal
-        FLogic
         FMean
         FDev
         FTraceVal
@@ -20,7 +19,6 @@ classdef Input_to_state
             obj.Cpipe = zeros(UFreq);
             obj.FMean = zeros(UFreq);
             obj.FVal = zeros(UFreq);
-            obj.FLogic = zeros(UFreq);
             obj.FDev = zeros(UFreq);
             obj.FTraceVal = ones(UFreq)*Trace;
         end
@@ -42,26 +40,6 @@ classdef Input_to_state
             %METHOD2 Summary of this method goes here
             %   Detailed explanation goes here
         end
-        function val = get.FMean(obj)
-            %METHOD2 Summary of this method goes here
-            %   Detailed explanation goes here
-        end
-        function val = get.FDev(obj)
-            %METHOD2 Summary of this method goes here
-            %   Detailed explanation goes here
-        end
-        
-        function val = get.FLogic(obj)
-            %METHOD2 Summary of this method goes here
-            %   Detailed explanation goes here
-        end
-        
-        function obj = freqLogics(obj)
-            %METHOD2 Summary of this method goes here
-            %   Detailed explanation goes here
-            obj.FLogic = Sig((obj.FVal-obj.FMean)./obj.FDev);
-        end
-        
     end
 end
 
