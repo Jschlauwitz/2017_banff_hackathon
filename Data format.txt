@@ -1,0 +1,3 @@
+First row is time
+2-17 are channel data
+18 is the unclassified trigger signal
