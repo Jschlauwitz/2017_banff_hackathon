@@ -56,10 +56,12 @@ classdef Input_to_state
             %   Detailed explanation goes here
         end
         
-        function obj = freqLogics(obj)
+        function obj = freqs(obj)
             %METHOD2 Summary of this method goes here
             %   Detailed explanation goes here
-            obj.FLogic = Sig((obj.FVal-obj.FMean)./obj.FDev);
+            obj.FVal = fft(obj.Cpipe);
+            obj.FMean = obj.FMean.*(1-obj.FTraceVal) + obj.FVal.*obj.FTraceVal;
+            obj.FDev = obj.FDev.*(1-obj.FTraceVal) + abs(obj.FVal-obj.FMean).*obj.FTraceVal;
         end
         
     end
