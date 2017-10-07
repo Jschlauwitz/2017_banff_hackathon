@@ -1,5 +1,6 @@
 classdef Input_to_state
-    %UNTITLED Summary of this class goes here
+    %Input_to_state Converts received frequency and trace to right/left
+    %state
     %   Detailed explanation goes here
     
     properties (Access = private)
@@ -13,8 +14,8 @@ classdef Input_to_state
     
     methods
         function obj = init(UFreq, Trace)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
+            %INIT Construct an instance of this class
+            %   Sets object parameters - currently null.
             obj.UpperFreq = UFreq;
             obj.Cpipe = zeros(UFreq);
             obj.FMean = zeros(UFreq);
@@ -24,20 +25,21 @@ classdef Input_to_state
         end
         
         function obj = push(obj, InValue)
-            %METHOD1 Summary of this method goes here
+            %PUSH Add new value to front of pipeline
             %   Detailed explanation goes here
             obj.Cpipe(2:end) = obj.Cpipe(1:(end-1));
             obj.Cpipe(1) = InValue;
         end
         function obj = freqs(obj)
-            %METHOD2 Summary of this method goes here
+            %FREQS Convert to frequency domain and find mean and avg
+            %frequencies
             %   Detailed explanation goes here
             obj.FVal = fft(obj.Cpipe);
             obj.FMean = obj.FMean.*(1-obj.FTraceVal) + obj.FVal.*obj.FTraceVal;
             obj.FDev = obj.FDev.*(1-obj.FTraceVal) + abs(obj.FVal-obj.FMean).*obj.FTraceVal;
         end
         function val = get.FVal(obj)
-            %METHOD2 Summary of this method goes here
+            %METHOD2 sSummary of this method goes here
             %   Detailed explanation goes here
         end
     end
