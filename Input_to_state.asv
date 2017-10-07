@@ -9,6 +9,7 @@ classdef Input_to_state
         Cpipe
         FVal
         FMean
+        FLogical
         FDev
         FTraceVal
     end
@@ -21,9 +22,11 @@ classdef Input_to_state
             obj.LwerFreq = LFreq;
             obj.Cpipe = zeros(UFreq);
             obj.FMean = zeros(UFreq-LFreq);
-            obj.FVal = zeros(UFreq-LwerFreq);
-            obj.FDev = zeros(UFreq-LwerFreq);
-            obj.FTraceVal = ones(UFreq-LwerFreq)*Trace;
+            obj.FVal = zeros(UFreq-LFreq);
+            obj.FDev = zeros(UFreq-LFreq);
+            obj.FLogical = zeros(UFreq-LFreq);
+            obj.FL = zeros(UFreq-LFreq);            
+            obj.FTraceVal = ones(UFreq-LFreq)*Trace;
         end
         
         function obj = push(obj, InValue)
@@ -33,12 +36,20 @@ classdef Input_to_state
             obj.Cpipe(1) = InValue;
         end
         function obj = freqs(obj)
-            %FREQS Convert to frequency domain and find mean and avg
-            %frequencies
+            %FREQS Convert to frequency domain and find mean and Std
+            %deviation
             %   Detailed explanation goes here
-            obj.FVal = fft(obj.Cpipe);
+            temp = fft(obj.Cpipe);
+            obj.FVal = temp(obj.LwerFreq:end);
             obj.FMean = obj.FMean.*(1-obj.FTraceVal) + obj.FVal.*obj.FTraceVal;
             obj.FDev = obj.FDev.*(1-obj.FTraceVal) + abs(obj.FVal-obj.FMean).*obj.FTraceVal;
+        end
+        function obj = freqs_to_logic(obj)
+            %FREQS Convert frequencies to a logical range
+            %   Detailed explanation goes here
+            temp = fft(obj.Cpipe);
+            obj.FLogical = Sig((obj.FVal-obj.FMean)./obj.FDev);
+            obj.FLhist = obj.FLhist.*(1-obj.FTraceVal) + obj.FLogical.*obj.FTraceVal;
         end
         function val = get.FVal(obj)
             %METHOD2 sSummary of this method goes here
