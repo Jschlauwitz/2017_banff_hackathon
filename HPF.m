@@ -1,4 +1,4 @@
-function Hd = HPF
+function b = HPF
 %HPF Returns a discrete-time filter object.
 
 % MATLAB Code
@@ -24,3 +24,4 @@ b  = firpm(N, Fo, Ao, W, {dens});
 Hd = dfilt.dffir(b);
 
 % [EOF]
+end
