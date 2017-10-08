@@ -1,3 +1,11 @@
-load('test_07_10_2017_15_24_14_0000.mat')
-% 255/s ==> 
-Xfmr = Input_to_state.init(8,51);
+load('test_07_10_2017_18_40_24_0000.mat')
+% 255/s ==> L = 51, U = 8
+Xfmr = Input_to_state;
+Xfmr.init(8,51, 0.99);
+
+result = zeros()
+for i= 1: 100 %length(y(14))
+    result = Xfmr.Crun(y(14,i))
+    
+    results
+end
